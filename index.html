@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <input type="button" value="click" id="btn" onclick="fn()">
+    <div id="data"></div>
+   
+
+
+
+    <script>
+        function fn(){
+            var xhttp=new XMLHttpRequest()
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    // console.log(data)
+                    myFunction(data);
+                }
+            };
+            xhttp.open('GET','https://jsonplaceholder.typicode.com/users',true)
+            xhttp.send()
+        }
+
+        function myFunction(arr){
+            let str=" <table><tr><th>Id</th><th>Name</th><th>Username</th><th>Email</th><th>Address</th><th>Phone</th><th>Website</th><th>Company</th></tr>"
+            arr.forEach(e => {
+                let {id,name,username,email,address,phone,website,company}=e
+                str+="<tr><td>"+id+"</td><td>"+name+"</td><td>"+username+"</td><td>"+email+"</td><td>"+address.street+'</br>' + address.suite + '</br>' + address.city + '</br>' + address.zipcode + '</br>' + '<b>Lat:</b>'+ address.geo.lat +  ' <b>Lng:</b>' + address.geo.lng +"</td><td>"+phone+"</td><td>"+website+"</td><td>"+company.name+ '</br>' + company.catchPhrase + '</br>' + company.bs  + "</td></tr>"
+            });
+            document.getElementById('data').innerHTML=str
+        }
+    </script>
+</body>
+</html>
